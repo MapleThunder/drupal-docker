@@ -20,6 +20,12 @@ docker build -t maplethunder/ddrupal .
 docker-compose up -d
 ```
 
+1. Run `composer install` in the docker container to install all necessary modules.
+
+```cli
+docker-compose exec drupal bash -c 'composer install'
+```
+
 After the environment is running, you can visit http://localhost
 
 ## Install Drupal
@@ -33,4 +39,7 @@ TODO Add `--existing-configs` once there are configs exported.
 ## Drush commands
 
 To run drush commands the following command must be used:
-```docker-compose exec drupal bash -c 'drush cr'```
+
+```cli
+docker-compose exec drupal bash -c 'drush cr'
+```

@@ -32,5 +32,5 @@ TODO Add `--existing-configs` once there are configs exported.
 
 ## Drush commands
 
-To rund drush commands the following command must be used:
+To run drush commands the following command must be used:
 ```docker-compose exec drupal bash -c 'drush cr'```

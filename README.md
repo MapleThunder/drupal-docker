@@ -1,45 +1,19 @@
-# DDrupal Test site
+# Docker and Drupal Starter
 
-Practicing getting a local Drupal instance running in a docker container.
+This project will allow for quick startup of a Drupal 9 site using Docker.
 
-## Local Environment
+## Setup
 
-Make sure to have Docker installed, then run the following commands (in the same directory as this README).
+1. Create a `.env` file from the `.env.example` file.
 
-1. Build the local Drupal docker image
+2. If you are loading an existing Drupal 9 site, add the database dump file to the `sql/` directory.
 
-> This creates the container `maplethunder/ddrupal` that the `docker-compose.yml` file refers to.
+3. Run `docker-compose up` to start the container
 
-```cli
-docker build -t maplethunder/ddrupal .
-```
+## Links for when the container is running
 
-1. Start the local development environment with Docker Compose.
+- [Site](http://localhost)
 
-```cli
-docker-compose up -d
-```
+- [phpmyadmin](http://localhost:7777)
 
-1. Run `composer install` in the docker container to install all necessary modules.
-
-```cli
-docker-compose exec drupal bash -c 'composer install'
-```
-
-After the environment is running, you can visit http://localhost
-
-## Install Drupal
-
-```cli
-docker-compose exec drupal bash -c 'drush site:install standard --db-url="mysql://drupal:$DRUPAL_DATABASE_PASSWORD@$DRUPAL_DATABASE_HOST/drupal" --site-name="sitename" -y'
-```
-
-TODO Add `--existing-configs` once there are configs exported.
-
-## Drush commands
-
-To run drush commands the following command must be used:
-
-```cli
-docker-compose exec drupal bash -c 'drush cr'
-```
+> NOTE: The DB_HOST value in the `.env` file **must** remain as "db". This points to the docker container running mysql.

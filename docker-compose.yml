@@ -2,35 +2,43 @@
 version: '3'
 
 services:
-  drupal:
-    image: maplethunder/ddrupal:latest
-    container_name: ddrupal-web
+  db:
+    image: mysql:5.7
+    container_name: ddrupal-db
+    restart: always
     environment:
-      DRUPAL_DATABASE_HOST: 'mysql'
-      DRUPAL_DATABASE_PORT: '3306'
-      DRUPAL_DATABASE_NAME: 'drupal'
-      DRUPAL_DATABASE_USERNAME: 'drupal'
-      DRUPAL_DATABASE_PASSWORD: 'drupal'
-      # @todo: change the hash salt
-      DRUPAL_HASH_SALT: 'fe918c992fb1bcfa01f32303c8b21f3d0a0'
-      DRUPAL_DOWNLOAD_IF_NOT_PRESENT: 'false'
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d/
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ddrupal-db-admin
+    restart: always
+    environment:
+      PMA_HOST: "${DB_HOST}"
+      PMA_USER: "${DB_USER}"
+      PMA_PASSWORD: "${DB_PASSWORD}"
+      PMA_ARBITRARY: "1"
+    ports:
+      - 7777:80
+
+  drupal:
+    build: .
+    container_name: ddrupal-web
+    restart: always
     ports:
       - "80:80"
-    restart: on-failure
-    # Share the project into the container for local development. Comment out
-    # this line to test the production-ready pre-built container codebase.
-    volumes: ['./:/var/www/html:rw,delegated']
-
-  mysql:
-    image: mysql:5.7
-    container_name: ddrupal-mysql
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-      MYSQL_DATABASE: drupal
-      MYSQL_USER: drupal
-      MYSQL_PASSWORD: drupal
-    restart: on-failure
-    ports:
-      - "3306:3306"
+    working_dir: /opt
     volumes:
-      - /var/lib/mysql
+      - .:/opt:z
+    environment:
+      HOST: "${DB_HOST}"
+      DB: "${DB_NAME}"
+      USER: "${DB_USER}"
+      PASSWORD: "${DB_PASSWORD}"
+    command: bash -c "composer update && rm /var/www/html && ln -s /opt/web /var/www/html && /usr/local/bin/apache2-foreground"
+

@@ -10,7 +10,8 @@ services:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USER}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      # MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - ./sql:/docker-entrypoint-initdb.d/
 
@@ -36,9 +37,9 @@ services:
     volumes:
       - .:/opt:z
     environment:
-      HOST: "${DB_HOST}"
-      DB: "${DB_NAME}"
-      USER: "${DB_USER}"
-      PASSWORD: "${DB_PASSWORD}"
+      DB_HOST: "${DB_HOST}"
+      DB_NAME: "${DB_NAME}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
     command: bash -c "composer update && rm /var/www/html && ln -s /opt/web /var/www/html && /usr/local/bin/apache2-foreground"
 

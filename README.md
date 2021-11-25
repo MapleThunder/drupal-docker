@@ -17,5 +17,3 @@ This project will allow for quick startup of a Drupal 9 site using Docker.
 - [Site](http://localhost)
 
 - [phpmyadmin](http://localhost:7777)
-
-> NOTE: The DB_HOST value in the `.env` file **must** remain as "db". This points to the docker container running mysql.

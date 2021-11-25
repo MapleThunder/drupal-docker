@@ -8,24 +8,11 @@ This project will allow for quick startup of a Drupal 9 site using Docker.
 
 2. If you are loading an existing Drupal 9 site, add the database dump file to the `sql/` directory.
 
-3. Copy the `default.settings.php` file into a `settings.php` file and add the following code to the bottom:
-
-```php
-$databases['default']['default'] = [
-  'database' => $_ENV["DB_NAME"],
-  'username' => $_ENV["DB_USER"],
-  'password' => $_ENV["DB_PASSWORD"],
-  'host' => $_ENV["DB_HOST"],
-  'port' => '3306',
-  'driver' => 'mysql',
-  'prefix' => '',
-  'collation' => 'utf8mb4_general_ci',
-];
-```
-
-4. Run `docker-compose up` to start the container.
+3. Run `docker-compose up` to start the container.
 
 > NOTE: When setting up the database the host will need to be `db` because it points to the container mysql is running on. If setting up a new site it won't allow you to proceed unless the host manually changed from the default of `localhost`.
+>
+> Make sure there are no `mysqldump: [Warning]` logs in the sql file as these can prevent the database from importing to the container.
 
 ### Links for when the container is running
 

@@ -10,6 +10,8 @@ This project will allow for quick startup of a Drupal 9 site using Docker.
 
 3. Run `docker-compose up` to start the container
 
+> NOTE: When setting up the database the host will need to be `db` because it points to the container mysql is running on. If setting up a new site it won't allow you to proceed unless the host manually changed from the default of `localhost`.
+
 ## Links for when the container is running
 
 - [Site](http://localhost)

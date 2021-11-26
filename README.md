@@ -14,6 +14,16 @@ This project will allow for quick startup of a Drupal 9 site using Docker.
 >
 > Make sure there are no `mysqldump: [Warning]` logs in the sql file as these can prevent the database from importing to the container.
 
+### Running Drush commands
+
+Use the following command to access the container running drupal, where you will be able to use drush.
+
+```cli
+$ docker exec -it ddrupal-web /bin/bash
+
+root@*:/opt# ./drush cr
+```
+
 ### Links for when the container is running
 
 - [Site](http://localhost)
